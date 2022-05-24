@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react"
+// import { useState, useEffect } from "react"
 import BlogList from "./BlogList";
+import useFetch from "./usefetch";
 const Home = () => {
-    const [blogs, setBlog] = useState(null);
-    const [isPending, setIsPending] = useState(true);
-    const [error, setError] = useState(false);
-
+    const {data: blogs,isPending,error} = useFetch('http://localhost:8000/blogs');
+    
     // const [name, setName] = useState('mario');
 
     // const hadleDelete = (id) => {
@@ -15,26 +14,7 @@ const Home = () => {
     //     console.log('use effect ran');
     //     console.log(name);
     // }, [name]);
-    useEffect(() => {
-        setTimeout(() => {
-            fetch('http://localhost:8000/blogs')
-                .then(res => {
-                    if (!res.ok) {
-                        throw Error('Could not fetch the data for that resource')
-                    }
-                    return res.json();
-                })
-                .then(data => {
-                    setBlog(data);
-                    setIsPending(false);
-                    setError(null);
-                })
-                .catch((err => {
-                    setError(err.message);
-                    setIsPending(false);
-                }));
-        }, 2000)
-    }, []);
+    
 
     return (
         <div className="home">
